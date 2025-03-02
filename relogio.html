@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relógio online</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 5rem;
+            height: 100vh;
+            background-color: #333;
+            color: #ddd;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        #relogio{
+            font-size: 15rem;
+            font-weight: bold;
+            padding: 20px 40px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px #ddd;
+        }
+
+        #cronometro{
+            font-size: 7rem;
+            font-weight: bold;
+            padding: 20px 40px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px #ddd;
+        }
+
+        
+
+        body.dark{
+            background-color: #111;
+            color:#ddd;
+        }
+
+        body.light{
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        button{
+            background: #0fc;
+            color: #111;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        body.light #toggleTema{
+            background: #333;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <button id="toggleTema">🌙 Mudar Tema</button>
+
+    <div id="relogio">
+        <span id="horas">00</span> :
+        <span id="minutos">00</span> :
+        <span id="segundos">00</span>
+    </div>
+
+    <div id="cronometro">
+        <span id="cron-horas">00</span>:
+        <span id="cron-minutos">00</span>:
+        <span id="cron-segundos">00</span>:
+        <span id="cron-milisegundos">000</span>
+    </div>
+
+    <div id="buttons">
+        <button id="start">▶️ Iniciar</button>
+        <button id="pause">⏸️ Pausar</button>
+        <button id="reset">🔄 Resetar</button>
+    </div>
+
+    <script>
+        function atualizarRelogio() {
+            let agora = new Date()
+            let horas = String(agora.getHours()).padStart(2, '0')
+            let minutos = String(agora.getMinutes()).padStart(2, '0')
+            let segundos = String(agora.getSeconds()).padStart(2, '0')
+
+            document.getElementById('horas').textContent = horas
+            document.getElementById('minutos').textContent = minutos
+            document.getElementById('segundos').textContent = segundos
+        }
+
+        setInterval(atualizarRelogio, 1000)
+        atualizarRelogio()        
+        
+        //======================TEMA=============================
+
+        const botaoTema = document.getElementById('toggleTema')
+        const body = document.body
+
+        const temaSalvo = localStorage.getItem('tema')
+
+        if(temaSalvo) {
+            body.classList.add(temaSalvo)
+            botaoTema.textContent = temaSalvo === 'dark' ? "🌞 Modo Claro" : "🌙 Modo Escuro"
+        }
+
+        botaoTema.addEventListener('click', () => {
+            if (body.classList.contains('dark')) {
+                body.classList.replace('dark', 'light')
+                botaoTema.textContent = "🌙 Modo Escuro"
+                localStorage.setItem('tema', 'light')
+            } else {
+                body.classList.replace('light', 'dark')
+                botaoTema.textContent = "🌞 Modo Claro"
+                localStorage.setItem('tema', 'dark')
+            }
+        })
+        
+        //================Cronometro==================
+        let cronometroAtivo = false;
+        let tempoInicial = 0;
+        let intervalo;
+
+        function atualizarCronometro() {
+            let tempoAtual = Date.now() - tempoInicial;
+            let horas = Math.floor(tempoAtual / (1000 * 60 * 60));
+            let minutos = Math.floor((tempoAtual % (1000 * 60 * 60)) / (1000 * 60));
+            let segundos = Math.floor((tempoAtual % (1000 * 60)) / 1000);
+            let milisegundos = tempoAtual % 1000;
+
+            document.getElementById("cron-horas").textContent = String(horas).padStart(2, "0");
+            document.getElementById("cron-minutos").textContent = String(minutos).padStart(2, "0");
+            document.getElementById("cron-segundos").textContent = String(segundos).padStart(2, "0");
+            document.getElementById("cron-milisegundos").textContent = String(milisegundos).padStart(3, "0");
+        }
+
+        // Iniciar Cronômetro
+        document.getElementById("start").addEventListener("click", () => {
+            if (!cronometroAtivo) {
+                cronometroAtivo = true;
+                tempoInicial = Date.now() - (tempoInicial ? tempoInicial : 0);
+                intervalo = setInterval(atualizarCronometro, 10);
+            }
+        });
+
+        // Pausar Cronômetro
+        document.getElementById("pause").addEventListener("click", () => {
+            cronometroAtivo = false;
+            clearInterval(intervalo);
+        });
+
+        // Resetar Cronômetro
+        document.getElementById("reset").addEventListener("click", () => {
+            cronometroAtivo = false;
+            clearInterval(intervalo);
+            tempoInicial = 0;
+            document.getElementById("cron-horas").textContent = "00";
+            document.getElementById("cron-minutos").textContent = "00";
+            document.getElementById("cron-segundos").textContent = "00";
+            document.getElementById("cron-milisegundos").textContent = "000";
+        });
+    </script>
+</body>
+</html>
