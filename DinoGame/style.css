@@ -1,0 +1,103 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #111;
+}
+
+.game-board { 
+    background: url(imgs/dino-game-cover.1.png) repeat-x;
+    background-color: white;
+    background-size: cover;
+    width: 1000px;
+    height: 530px;
+    border: solid 1px #ddd;
+    position: relative;
+    margin: 0 auto;
+    overflow: hidden;
+    animation: background-move 2s linear infinite;
+}
+
+#cacto {
+    height: 110px;
+    width: 70px;
+    bottom: 0;
+    position: absolute;
+    transition:all 0.2s;
+    animation: cacto1-move 2s linear infinite;
+}
+
+#cacto2 {
+    height: 150px;
+    bottom: 0;
+    position: absolute;
+    transition:all 0.2s;
+    animation: cacto2-move 10s linear infinite;
+}
+
+#dino {
+    position: absolute;
+    bottom: 0;
+    height: 180px;
+    transition: all 0.4s;
+    left: 0;
+}
+
+#game-over {
+    display: none;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 30px;
+    background: #111;
+    color: #ddd;
+    padding: 20px;
+    border-radius: 10px;
+    font-family:'Courier New', Courier, monospace;
+}
+
+.jump {
+    animation:dino-animation 0.8s ease-out;
+}
+
+@keyframes dino-animation {
+    0%{bottom: 0;}
+    50%{bottom: 350px;}
+    100%{bottom: 0;}
+}
+
+@keyframes background-move {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: -1070px 0;
+    }
+}
+
+@keyframes cacto1-move {
+    from {
+        right: -50px;
+    }
+    to {
+        right: 1100px;
+    }
+}
+
+@keyframes cacto2-move {
+    from {
+        right: -2800px;
+    }
+    to {
+        right: 2000px;
+    }
+}
