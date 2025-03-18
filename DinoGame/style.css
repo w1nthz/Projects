@@ -1,3 +1,9 @@
+@font-face {
+    font-family: minecraft;
+    src: url(Minecraft.ttf);
+}
+
+
 * {
     margin: 0;
     padding: 0;
@@ -9,25 +15,36 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #111;
+    background-color: #121212;
+    font-family: 'minecraft';
+}
+
+#points {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 10vh;
+    font-size: 2rem;
+    background-color: cadetblue;
 }
 
 .game-board { 
     background: url(imgs/dino-game-cover.1.png) repeat-x;
     background-color: white;
     background-size: cover;
-    width: 1000px;
-    height: 530px;
+    width: 65vw;
+    height: 70vh;
     border: solid 1px #ddd;
     position: relative;
     margin: 0 auto;
     overflow: hidden;
     animation: background-move 2s linear infinite;
+    border-radius: 10px;
 }
 
 #cacto {
-    height: 110px;
-    width: 70px;
+    height: 15vh;
+    width: 4vw;
     bottom: 0;
     position: absolute;
     transition:all 0.2s;
@@ -44,8 +61,9 @@ body {
 
 #dino {
     position: absolute;
+    height: 25vh;
+    width: 8vw;
     bottom: 0;
-    height: 180px;
     transition: all 0.4s;
     left: 0;
 }
@@ -62,16 +80,17 @@ body {
     color: #ddd;
     padding: 20px;
     border-radius: 10px;
-    font-family:'Courier New', Courier, monospace;
+    font-family: 'minecraft';
+    box-shadow: 0 0 30px #121212;
 }
 
 .jump {
-    animation:dino-animation 0.8s ease-out;
+    animation:dino-animation 1s ease-out;
 }
 
 @keyframes dino-animation {
     0%{bottom: 0;}
-    50%{bottom: 350px;}
+    50%{bottom: 35vh;}
     100%{bottom: 0;}
 }
 
